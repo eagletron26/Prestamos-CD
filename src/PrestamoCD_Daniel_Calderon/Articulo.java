@@ -7,6 +7,7 @@ public class Articulo {
     private String titulo;
     private int duracion;
     private int anioLanzamiento;
+    private int variablePrueba;
 
     public Articulo(String titulo, int duracion, int anioLanzamiento) {
         this.titulo = titulo;
