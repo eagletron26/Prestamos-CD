@@ -1,7 +1,9 @@
 package PrestamoCD_Daniel_Calderon;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,19 +34,21 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
             ResultSet resultado = objConexion.consultarRegistros("SELECT * FROM cd");
 
             while (resultado.next()) {
-                
+
                 String valorprestado;
-                
-                if (Integer.parseInt(resultado.getString("prestado")) == 0) {
+
+                if (resultado.getString("prestado").equals("0")) {
                     valorprestado = "NO";
-                }else valorprestado = "SI";
+                } else {
+                    valorprestado = "SI";
+                }
 
                 //elementos a incluir en la tabla
-                Object[] oCd = {resultado.getString("artista"), resultado.getString("numPistas"), resultado.getString("titulo"),
-                     resultado.getString("duracion"), resultado.getString("anioLanzamiento"), valorprestado};
+                Object[] oCd = {resultado.getString("titulo"), resultado.getString("artista"), resultado.getString("anioLanzamiento"),
+                    resultado.getString("duracion"), resultado.getString("numPistas"), valorprestado};
                 modelo.addRow(oCd);
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException | SQLException e) {
             System.out.println(e);
         }
     }
@@ -115,6 +119,11 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
 
             }
         ));
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbl);
 
         b_crear_cd.setText("CREAR CD");
@@ -175,12 +184,10 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(t_album)
                                 .addComponent(t_artista, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(t_num_canciones, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(t_duracion, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(t_anio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(189, 189, 189)))))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(t_num_canciones, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(t_duracion, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(t_anio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(b_crear_cd, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(118, 118, 118))
@@ -331,6 +338,23 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Seleccione un CD para eliminar");
         }*/
     }//GEN-LAST:event_b_eliminarActionPerformed
+// Metodo para que lo que se selecciona quede en pantalla, se debe agregar en la tabla, en eventos, mouseClicked y seleccionar la tabla
+    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 1) {
+
+            JTable receptor = (JTable) evt.getSource();
+
+            t_album.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 0).toString());
+            t_anio.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 2).toString());
+            t_artista.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 1).toString());
+            t_duracion.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 3).toString());
+            t_num_canciones.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 4).toString());
+
+        }
+        // botonesInverso();
+
+    }//GEN-LAST:event_tblMouseClicked
 
     public void limpiar() {
 
