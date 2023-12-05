@@ -31,12 +31,13 @@ public class Conexion {
                 // Crear la tabla
 
                 String sql = "CREATE TABLE IF NOT EXISTS cd (\n"
-                        + "    id INTEGER PRIMARY KEY,\n"
+                        + "    id SERIAL PRIMARY KEY,\n"
                         + "    artista VARCHAR,\n"
                         + "    numPistas INTEGER,\n"
                         + "    titulo VARCHAR,\n"
                         + "    duracion INTEGER,\n"
                         + "    anioLanzamiento INTEGER,\n"
+                        + "    prestado INTEGER\n"
                         + ");";
                 stmt.execute(sql);
 

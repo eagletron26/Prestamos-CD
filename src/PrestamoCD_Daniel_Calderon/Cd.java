@@ -6,13 +6,18 @@ public class Cd extends Articulo implements PrestarArticulo{
     
     private String artista;
     private int numPistas;
-    private boolean prestado;
+    private int prestado;
 
-    public Cd(String artista, int numPistas, String titulo, int duracion, int anioLanzamiento) {
+    public Cd(String titulo, int duracion, int anioLanzamiento) {
+        super(titulo, duracion, anioLanzamiento);
+    }
+
+
+  public Cd(String artista, int numPistas, String titulo, int duracion, int anioLanzamiento) {
         super(titulo, duracion, anioLanzamiento);
         this.artista = artista;
         this.numPistas = numPistas;
-        this.prestado = false;
+        this.prestado = 0;
     }
 
     public String getArtista() {
@@ -31,7 +36,7 @@ public class Cd extends Articulo implements PrestarArticulo{
         this.numPistas = numPistas;
     }
 
-    public boolean isPrestado() {
+    public int isPrestado() {
         return prestado;
     }
     
@@ -39,12 +44,12 @@ public class Cd extends Articulo implements PrestarArticulo{
 
     @Override
     public void prestar() {
-        this.prestado = true; 
+        this.prestado = 1; 
     }
 
     @Override
     public void devolver() {
-        this.prestado = false; 
+        this.prestado = 0; 
     }
     
     

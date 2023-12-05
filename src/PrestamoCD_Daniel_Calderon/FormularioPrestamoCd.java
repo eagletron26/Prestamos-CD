@@ -1,6 +1,6 @@
 package PrestamoCD_Daniel_Calderon;
 
-import java.util.ArrayList;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -10,42 +10,43 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class FormularioPrestamoCd extends javax.swing.JFrame {
 
-
-    ArrayList<Cd> listaCd;
     DefaultTableModel modelo;
-
 
     public FormularioPrestamoCd() {
         initComponents();
-        listaCd = new ArrayList();
-        modelo = new DefaultTableModel();
-        modelo.addColumn("Titulo Álbum");
-        modelo.addColumn("Artista");
-        modelo.addColumn("Año");
-        modelo.addColumn("Duracion");
-        modelo.addColumn("Canciones");
-        modelo.addColumn("Prestado");
+
+        // Crear las columnas de la tabla
+        String[] titulos = {"Titulo Álbum", "Artista", "Año", "Duracion", "Canciones", "Prestado"};
+        modelo = new DefaultTableModel(null, titulos);
+        tbl.setModel(modelo);
+
         mostrarDatos();
 
     }
 
     public void mostrarDatos() {
-        modelo.setNumRows(listaCd.size());
+        //conexion con la BD
+        Conexion objConexion = new Conexion();
 
-        for (int i = 0; i < listaCd.size(); i++) {
-            modelo.setValueAt(listaCd.get(i).getTitulo(), i, 0);
-            modelo.setValueAt(listaCd.get(i).getArtista(), i, 1);
-            modelo.setValueAt(listaCd.get(i).getAnioLanzamiento(), i, 2);
-            modelo.setValueAt(listaCd.get(i).getDuracion(), i, 3);
-            modelo.setValueAt(listaCd.get(i).getNumPistas(), i, 4);
-            if (listaCd.get(i).isPrestado() == true) {
-                modelo.setValueAt("SI", i, 5);
-            } else {
-                modelo.setValueAt("NO", i, 5);
+        try {
+            ResultSet resultado = objConexion.consultarRegistros("SELECT * FROM cd");
+
+            while (resultado.next()) {
+                
+                String valorprestado;
+                
+                if (Integer.parseInt(resultado.getString("prestado")) == 0) {
+                    valorprestado = "NO";
+                }else valorprestado = "SI";
+
+                //elementos a incluir en la tabla
+                Object[] oCd = {resultado.getString("artista"), resultado.getString("numPistas"), resultado.getString("titulo"),
+                     resultado.getString("duracion"), resultado.getString("anioLanzamiento"), valorprestado};
+                modelo.addRow(oCd);
             }
-
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        tbl.setModel(modelo);
     }
 
     /**
@@ -254,11 +255,17 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
                 && !t_anio.getText().equals("")
                 && !t_duracion.getText().equals("") && !t_num_canciones.getText().equals("")) {
 
-            Cd myCd = new Cd(t_artista.getText(), Integer.parseInt(t_num_canciones.getText()), t_album.getText(),
-                    Integer.parseInt(t_duracion.getText()), Integer.parseInt(t_anio.getText()));
+            Conexion objConexion = new Conexion();
 
-            listaCd.add(myCd);
-            mostrarDatos();
+            Cd oCd = recuperarDatosGUI();
+
+            String strSentenciaInsert = String.format("INSERT INTO cd "
+                    + "VALUES (null, '%s', %d,'%s', %d, %d, %d);", oCd.getArtista(), oCd.getNumPistas(),
+                    oCd.getTitulo(), oCd.getDuracion(), oCd.getAnioLanzamiento(), oCd.isPrestado());
+
+            objConexion.ejecutarSentenciaSQL(strSentenciaInsert);
+            actualizarTabla();
+
             JOptionPane.showMessageDialog(null, "Cd Creado");
             limpiar();
         } else {
@@ -269,7 +276,7 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
 
     private void b_prestarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_prestarActionPerformed
         // TODO add your handling code here:
-
+/*
         int selectedRow = tbl.getSelectedRow();
         if (selectedRow != -1) {
             if (listaCd.get(selectedRow).isPrestado() == false) {
@@ -282,13 +289,13 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
 
         } else {
             JOptionPane.showMessageDialog(null, "Seleccione un CD valido");
-        }
+        }*/
 
     }//GEN-LAST:event_b_prestarActionPerformed
 
     private void b_devolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_devolverActionPerformed
         // TODO add your handling code here:
-
+/*
         int selectedRow = tbl.getSelectedRow();
         if (selectedRow != -1) {
             if (listaCd.get(selectedRow).isPrestado() == true) {
@@ -302,29 +309,27 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Seleccione un CD valido");
         }
-
+         */
     }//GEN-LAST:event_b_devolverActionPerformed
 
     private void b_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_eliminarActionPerformed
         // TODO add your handling code here:
-
+/*
         int selectedRow = tbl.getSelectedRow();
         if (selectedRow != -1) {
 
             if (listaCd.get(selectedRow).isPrestado() == false) {
                 listaCd.remove(selectedRow);
-            mostrarDatos();
-            JOptionPane.showMessageDialog(null, "CD Eliminado");
-             
+                mostrarDatos();
+                JOptionPane.showMessageDialog(null, "CD Eliminado");
 
             } else {
                 JOptionPane.showMessageDialog(null, "El CD NO se puede elminar por que NO ha sido devuelto");
             }
 
-
         } else {
             JOptionPane.showMessageDialog(null, "Seleccione un CD para eliminar");
-        }
+        }*/
     }//GEN-LAST:event_b_eliminarActionPerformed
 
     public void limpiar() {
@@ -335,6 +340,15 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
         t_duracion.setText("");
         t_num_canciones.setText("");
 
+    }
+    // Metodo para crear clase de Cd y luego pasar sus datos a la BD en el metodo
+
+    public Cd recuperarDatosGUI() {
+        Cd oCd = new Cd(t_artista.getText(), Integer.parseInt(t_num_canciones.getText()), t_album.getText(),
+                Integer.parseInt(t_duracion.getText()), Integer.parseInt(t_anio.getText()));
+        oCd.setTitulo(t_album.getText());
+
+        return oCd;
     }
 
     /**
@@ -392,4 +406,20 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
     private javax.swing.JTextField t_num_canciones;
     private javax.swing.JTable tbl;
     // End of variables declaration//GEN-END:variables
+
+    private void actualizarTabla() {
+        // Obtén el modelo de la tabla
+        DefaultTableModel modeloTabla = (DefaultTableModel) tbl.getModel();
+
+        // Limpia la tabla antes de volver a cargar los datos
+        while (modeloTabla.getRowCount() > 0) {
+            modeloTabla.removeRow(0);
+        }
+
+        // Limpiar los parametros
+        limpiar();
+
+        // Agrega los contactos actualizados a la tabla
+        mostrarDatos();
+    }
 }
