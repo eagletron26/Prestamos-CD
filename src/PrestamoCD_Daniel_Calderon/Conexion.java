@@ -31,7 +31,7 @@ public class Conexion {
                 // Crear la tabla
 
                 String sql = "CREATE TABLE IF NOT EXISTS cd (\n"
-                        + "    id SERIAL PRIMARY KEY,\n"
+                        + "    id INTEGER PRIMARY KEY,\n"
                         + "    artista VARCHAR,\n"
                         + "    numPistas INTEGER,\n"
                         + "    titulo VARCHAR,\n"

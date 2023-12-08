@@ -8,13 +8,8 @@ public class Cd extends Articulo implements PrestarArticulo{
     private int numPistas;
     private int prestado;
 
-    public Cd(String titulo, int duracion, int anioLanzamiento) {
-        super(titulo, duracion, anioLanzamiento);
-    }
-
-
-  public Cd(String artista, int numPistas, String titulo, int duracion, int anioLanzamiento) {
-        super(titulo, duracion, anioLanzamiento);
+    public Cd(String artista, int numPistas, int id, String titulo, int duracion, int anioLanzamiento) {
+        super(id, titulo, duracion, anioLanzamiento);
         this.artista = artista;
         this.numPistas = numPistas;
         this.prestado = 0;

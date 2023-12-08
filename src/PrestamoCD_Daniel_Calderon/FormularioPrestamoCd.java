@@ -18,10 +18,10 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
         initComponents();
 
         // Crear las columnas de la tabla
-        String[] titulos = {"Titulo Álbum", "Artista", "Año", "Duracion", "Canciones", "Prestado"};
+        String[] titulos = {"ID", "Titulo Álbum", "Artista", "Año", "Duracion", "Canciones", "Prestado"};
         modelo = new DefaultTableModel(null, titulos);
         tbl.setModel(modelo);
-
+        botones();
         mostrarDatos();
 
     }
@@ -37,14 +37,14 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
 
                 String valorprestado;
 
-                if (resultado.getString("prestado").equals("0")) {
+                if (Integer.parseInt(resultado.getString("prestado")) == 0) {
                     valorprestado = "NO";
                 } else {
                     valorprestado = "SI";
                 }
 
                 //elementos a incluir en la tabla
-                Object[] oCd = {resultado.getString("titulo"), resultado.getString("artista"), resultado.getString("anioLanzamiento"),
+                Object[] oCd = {resultado.getString("ID"), resultado.getString("titulo"), resultado.getString("artista"), resultado.getString("anioLanzamiento"),
                     resultado.getString("duracion"), resultado.getString("numPistas"), valorprestado};
                 modelo.addRow(oCd);
             }
@@ -62,6 +62,7 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        b_crear_cd1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -80,6 +81,16 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
         b_prestar = new javax.swing.JButton();
         b_devolver = new javax.swing.JButton();
         b_eliminar = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        t_id = new javax.swing.JTextField();
+        b_cancelar = new javax.swing.JButton();
+
+        b_crear_cd1.setText("CREAR CD");
+        b_crear_cd1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_crear_cd1ActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -154,6 +165,21 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setText("ID:");
+
+        t_id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                t_idActionPerformed(evt);
+            }
+        });
+
+        b_cancelar.setText("CANCELAR");
+        b_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_cancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -169,39 +195,49 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(40, 40, 40)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(124, 124, 124)
-                        .addComponent(jLabel1))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(t_album)
+                            .addComponent(t_artista, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(t_id, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(63, 63, 63))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(40, 40, 40)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(t_album)
-                                .addComponent(t_artista, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(t_num_canciones, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(t_duracion, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(t_anio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(b_crear_cd, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(118, 118, 118))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(t_num_canciones, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(t_duracion, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(t_anio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(b_crear_cd, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(42, 42, 42)
+                .addComponent(b_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(70, 70, 70))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 737, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(51, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(270, 270, 270))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel1)
-                .addGap(37, 37, 37)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(t_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(t_album, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -221,8 +257,9 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(t_num_canciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(b_crear_cd))
-                .addGap(35, 35, 35)
+                    .addComponent(b_crear_cd)
+                    .addComponent(b_cancelar))
+                .addGap(25, 25, 25)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -257,7 +294,8 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
     private void b_crear_cdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_crear_cdActionPerformed
         // TODO add your handling code here:
 
-        if (!t_album.getText().equals("")
+        if (!t_id.getText().equals("")
+                && !t_album.getText().equals("")
                 && !t_artista.getText().equals("")
                 && !t_anio.getText().equals("")
                 && !t_duracion.getText().equals("") && !t_num_canciones.getText().equals("")) {
@@ -267,7 +305,7 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
             Cd oCd = recuperarDatosGUI();
 
             String strSentenciaInsert = String.format("INSERT INTO cd "
-                    + "VALUES (null, '%s', %d,'%s', %d, %d, %d);", oCd.getArtista(), oCd.getNumPistas(),
+                    + "VALUES (%d, '%s', %d,'%s', %d, %d, %d);", oCd.getId(), oCd.getArtista(), oCd.getNumPistas(),
                     oCd.getTitulo(), oCd.getDuracion(), oCd.getAnioLanzamiento(), oCd.isPrestado());
 
             objConexion.ejecutarSentenciaSQL(strSentenciaInsert);
@@ -283,60 +321,58 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
 
     private void b_prestarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_prestarActionPerformed
         // TODO add your handling code here:
-/*
-        int selectedRow = tbl.getSelectedRow();
-        if (selectedRow != -1) {
-            if (listaCd.get(selectedRow).isPrestado() == false) {
-                listaCd.get(selectedRow).prestar();
-                mostrarDatos();
-                JOptionPane.showMessageDialog(null, "Cd prestado correctamente");
-            } else {
-                JOptionPane.showMessageDialog(null, "El CD ya ha sido prestado");
-            }
 
-        } else {
-            JOptionPane.showMessageDialog(null, "Seleccione un CD valido");
-        }*/
+        Conexion objConexion = new Conexion();
+
+        Cd oCd = recuperarDatosGUI();
+
+        oCd.prestar();
+
+        String strSentenciaInsert = String.format("UPDATE cd SET prestado = %d WHERE ID = %d", oCd.isPrestado(), oCd.getId());
+
+        objConexion.ejecutarSentenciaSQL(strSentenciaInsert);
+
+        actualizarTabla();
+        botones();
+
 
     }//GEN-LAST:event_b_prestarActionPerformed
 
     private void b_devolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_devolverActionPerformed
         // TODO add your handling code here:
-/*
-        int selectedRow = tbl.getSelectedRow();
-        if (selectedRow != -1) {
-            if (listaCd.get(selectedRow).isPrestado() == true) {
-                listaCd.get(selectedRow).devolver();
-                mostrarDatos();
-                JOptionPane.showMessageDialog(null, "Cd devuelto correctamente");
-            } else {
-                JOptionPane.showMessageDialog(null, "El CD ya ha sido devuelto");
-            }
 
-        } else {
-            JOptionPane.showMessageDialog(null, "Seleccione un CD valido");
-        }
-         */
+        Conexion objConexion = new Conexion();
+
+        Cd oCd = recuperarDatosGUI();
+
+        oCd.devolver();
+
+        String strSentenciaInsert = String.format("UPDATE cd SET prestado = %d WHERE ID = %d", oCd.isPrestado(), oCd.getId());
+        objConexion.ejecutarSentenciaSQL(strSentenciaInsert);
+
+        actualizarTabla();
+        botones();
+ 
     }//GEN-LAST:event_b_devolverActionPerformed
 
     private void b_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_eliminarActionPerformed
         // TODO add your handling code here:
-/*
-        int selectedRow = tbl.getSelectedRow();
-        if (selectedRow != -1) {
 
-            if (listaCd.get(selectedRow).isPrestado() == false) {
-                listaCd.remove(selectedRow);
-                mostrarDatos();
-                JOptionPane.showMessageDialog(null, "CD Eliminado");
+        Conexion objConexion = new Conexion();
 
-            } else {
-                JOptionPane.showMessageDialog(null, "El CD NO se puede elminar por que NO ha sido devuelto");
-            }
+        Cd oCd = recuperarDatosGUI();
+
+        if (oCd.isPrestado() == 0) {
+            String strSentenciaInsert = String.format("DELETE FROM cd WHERE ID=%d", oCd.getId());
+
+            objConexion.ejecutarSentenciaSQL(strSentenciaInsert);
+            actualizarTabla();
+            JOptionPane.showMessageDialog(null, "CD Eliminado");
 
         } else {
-            JOptionPane.showMessageDialog(null, "Seleccione un CD para eliminar");
-        }*/
+            JOptionPane.showMessageDialog(null, "El CD NO se puede elminar por que NO ha sido devuelto");
+        }
+
     }//GEN-LAST:event_b_eliminarActionPerformed
 // Metodo para que lo que se selecciona quede en pantalla, se debe agregar en la tabla, en eventos, mouseClicked y seleccionar la tabla
     private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
@@ -345,19 +381,35 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
 
             JTable receptor = (JTable) evt.getSource();
 
-            t_album.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 0).toString());
-            t_anio.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 2).toString());
-            t_artista.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 1).toString());
-            t_duracion.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 3).toString());
-            t_num_canciones.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 4).toString());
+            t_id.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 0).toString());
+            t_album.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 1).toString());
+            t_anio.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 3).toString());
+            t_artista.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 2).toString());
+            t_duracion.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 4).toString());
+            t_num_canciones.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 5).toString());
 
         }
-        // botonesInverso();
+        botonesInverso();
 
     }//GEN-LAST:event_tblMouseClicked
 
+    private void t_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_t_idActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_t_idActionPerformed
+
+    private void b_crear_cd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_crear_cd1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_b_crear_cd1ActionPerformed
+
+    private void b_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_cancelarActionPerformed
+        // TODO add your handling code here:
+        actualizarTabla();
+        botones();
+    }//GEN-LAST:event_b_cancelarActionPerformed
+
     public void limpiar() {
 
+        t_id.setText("");
         t_album.setText("");
         t_anio.setText("");
         t_artista.setText("");
@@ -368,11 +420,28 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
     // Metodo para crear clase de Cd y luego pasar sus datos a la BD en el metodo
 
     public Cd recuperarDatosGUI() {
-        Cd oCd = new Cd(t_artista.getText(), Integer.parseInt(t_num_canciones.getText()), t_album.getText(),
+        Cd oCd = new Cd(t_artista.getText(), Integer.parseInt(t_num_canciones.getText()),
+                Integer.parseInt(t_id.getText()), t_album.getText(),
                 Integer.parseInt(t_duracion.getText()), Integer.parseInt(t_anio.getText()));
         oCd.setTitulo(t_album.getText());
 
         return oCd;
+    }
+
+    public void botones() {
+        b_crear_cd.setEnabled(true);
+        b_prestar.setEnabled(false);
+        b_devolver.setEnabled(false);
+        b_eliminar.setEnabled(false);
+        //t_documento.setEditable(true);
+    }
+
+    public void botonesInverso() {
+        b_crear_cd.setEnabled(false);
+        b_prestar.setEnabled(true);
+        b_devolver.setEnabled(true);
+        b_eliminar.setEnabled(true);
+        //t_documento.setEditable(false);
     }
 
     /**
@@ -411,7 +480,9 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton b_cancelar;
     private javax.swing.JButton b_crear_cd;
+    private javax.swing.JButton b_crear_cd1;
     private javax.swing.JButton b_devolver;
     private javax.swing.JButton b_eliminar;
     private javax.swing.JButton b_prestar;
@@ -421,12 +492,14 @@ public final class FormularioPrestamoCd extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField t_album;
     private javax.swing.JTextField t_anio;
     private javax.swing.JTextField t_artista;
     private javax.swing.JTextField t_duracion;
+    private javax.swing.JTextField t_id;
     private javax.swing.JTextField t_num_canciones;
     private javax.swing.JTable tbl;
     // End of variables declaration//GEN-END:variables
